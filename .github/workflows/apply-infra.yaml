@@ -50,8 +50,3 @@ jobs:
         run: |
           terraform -chdir=terraform init
           terraform -chdir=terraform apply -auto-approve
-
-      - name: Export Kubeconfig
-        run: |
-          sudo kind get kubeconfig --name dyninno-cluster > kubeconfig.yaml
-          kubectl get nodes
