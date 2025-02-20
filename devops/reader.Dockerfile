@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY app/reader/* .
 
-RUN pip install -r  app/reader/requirements.txt
+RUN pip install -r  /app/requirements.txt
 
-CMD ["python", "reader.py"]
+CMD ["python", "/app/reader.py"]
