@@ -37,6 +37,3 @@ sleep 10
 
 # Create a Kind cluster as the ubuntu user
 sudo -u ubuntu kind create cluster --name dyninno-cluster
-
-# Verify cluster
-sudo -u ubuntu kubectl cluster-info
