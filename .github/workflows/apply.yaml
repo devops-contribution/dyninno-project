@@ -1,24 +1,31 @@
-name: Validation
+name: Apply
 
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - "terraform/**"
+  workflow_run:
+    workflows: ["Validation"]
+    types:
+      - completed
 
 permissions:
   id-token: write
   contents: read
 
 jobs:
-  terraform-validate-plan:
-    name: Validate & Plan
+  wait-for-approval:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
+    environment: dev # Approval is needed for dev env.
+
     steps:
-      - name: Checkout Repository
+      - name: Awaiting manual approval
+        run: echo "Approval granted, proceeding to apply..."
+
+  apply-changes:
+    runs-on: ubuntu-latest
+    needs: wait-for-approval
+    steps:
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup Terraform
@@ -26,23 +33,20 @@ jobs:
         with:
           terraform_version: latest
 
-      # Either use role or access keys to authenticate AWS, both approaches are shown below.
-  
       #- name: Configure AWS creds
       #  uses: aws-actions/configure-aws-credentials@v4
       #  with:
       #    role-to-assume: arn:aws:iam::014337110715:role/github-actions-role
       #    aws-region: us-west-2
-
+   
       - name: Authenticate AWS
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }} # This secret is being passed from repo secrets in github.
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # This secret is being passed from repo secrets in github.
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2
 
-      - name: Validate & Plan
+      - name: Apply changes
         run: |
           terraform -chdir=terraform init
-          terraform -chdir=terraform validate
-          terraform -chdir=terraform plan
+          terraform -chdir=terraform apply -auto-approve
