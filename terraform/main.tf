@@ -43,7 +43,6 @@ resource "aws_instance" "minikube" {
   ami                    = data.aws_ami.latest_ubuntu.id
   instance_type          = "t3.medium"
   vpc_security_group_ids = [aws_security_group.minikube_sg.id]
-  subnet_id              = var.subnet_id
 
 
   user_data = file("${path.module}/../scripts/install.sh")
