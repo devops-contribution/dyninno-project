@@ -2,8 +2,8 @@ FROM python:3.8-slim
 
 WORKDIR /app
 
-COPY . .
+COPY ../app/reader/* .
 
-RUN pip install -r requirements.txt
+RUN pip install -r  ../app/reader/requirements.txt
 
 CMD ["python", "reader.py"]
