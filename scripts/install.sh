@@ -25,7 +25,8 @@ sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin d
 sudo systemctl enable docker
 sudo systemctl start docker
 
-sudo usermod -aG docker $USER && newgrp docker
+sudo usermod -aG docker $USER
+sudo su - $USER -c "id -nG"
 
 
 # Download Minikube binary
