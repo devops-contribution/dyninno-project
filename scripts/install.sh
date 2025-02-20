@@ -1,35 +1,42 @@
 #!/bin/bash
 
-sudo apt-get update -y
-sudo apt-get install -y docker.io
+# Update system packages
+sudo apt update -y
+sudo apt install -y curl wget apt-transport-https ca-certificates gnupg lsb-release
 
-# Start and enable Docker
-sudo systemctl start docker
+# Install Docker
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo tee /etc/apt/keyrings/docker.asc > /dev/null
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
+  | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# Enable and start Docker service
 sudo systemctl enable docker
+sudo systemctl start docker
 
-# Add the current user to the Docker group
-sudo usermod -aG docker $USER
+# Add ubuntu user to Docker group
+sudo usermod -aG docker ubuntu
+newgrp docker
 
-# Install Minikube dependencies
-# sudo apt-get install -y conntrack
-
-# Download and install Minikube
-curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-sudo install minikube-linux-amd64 /usr/local/bin/minikube
-
-# Download and install kubectl (Kubernetes CLI)
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+# Install kubectl
+curl -LO "https://dl.k8s.io/release/$(curl -Ls https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
-# Verify Minikube and kubectl installation
-minikube version
-kubectl version --client
+# Install Kind
+curl -Lo ./kind https://kind.sigs.k8s.io/dl/latest/kind-linux-amd64
+chmod +x ./kind
+sudo mv ./kind /usr/local/bin/kind
 
-# Start Minikube with the Docker driver
-minikube start --driver=docker
+# Allow some time for usermod changes to apply
+sleep 10
 
-# Verify Minikube status
-minikube status
+# Create a Kind cluster as the ubuntu user
+sudo -u ubuntu kind create cluster --name dyninno-cluster
 
-# Print Minikube IP
-echo "Minikube IP: $(minikube ip)"
+# Verify cluster
+sudo -u ubuntu kubectl cluster-info
