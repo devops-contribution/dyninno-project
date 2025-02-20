@@ -12,8 +12,8 @@ resource "aws_security_group" "minikube_sg" {
   vpc_id      = data.aws_vpc.default.id
 
   ingress {
-    from_port   = 0
-    to_port     = 0
+    from_port   = 22
+    to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"] # Chnage it as per your need.
   }
