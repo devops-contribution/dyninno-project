@@ -32,10 +32,18 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build Docker Image with Context
+      - name: Build Docker Image with Context (reader)
         uses: docker/build-push-action@v6
         with:
           context: .
           file: devops/reader.Dockerfile
           push: true
           tags: "${{ secrets.DOCKER_USERNAME }}/reader:${{ env.TAG }}"
+
+      - name: Build Docker Image with Context (writer)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: devops/writer.Dockerfile
+          push: true
+          tags: "${{ secrets.DOCKER_USERNAME }}/writer:${{ env.TAG }}"
