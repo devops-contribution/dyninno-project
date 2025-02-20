@@ -1,4 +1,4 @@
-name: Apply Infra (Run 'Validate Infra' first)
+name: Apply Infra (Runs post "Validate Infra")
 
 on:
   workflow_run:
