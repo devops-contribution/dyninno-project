@@ -38,4 +38,4 @@ jobs:
           context: .
           file: devops/reader.Dockerfile
           push: true
-          tags: "muk007/reader:${{ env.TAG }}"
+          tags: "${{ secrets.DOCKER_USERNAME }}/reader:${{ env.TAG }}"
