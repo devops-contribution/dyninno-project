@@ -17,17 +17,24 @@ spec:
         image: docker.io/muk007/reader:version-1
         ports:
         - containerPort: 5000
-
+        - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: reader-service
+  labels:
+    app: reader-service
 spec:
   selector:
     app: reader
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 5000
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 5000
+    - name: metrics
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
   type: LoadBalancer

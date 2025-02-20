@@ -1,0 +1,13 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: reader-monitor
+  labels:
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: reader
+  endpoints:
+  - port: metrics
+    interval: 10s
