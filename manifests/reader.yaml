@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: reader
-        image: reader:latest
+        image: reader:version-1
         ports:
         - containerPort: 5000
 
