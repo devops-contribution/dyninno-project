@@ -17,8 +17,6 @@ spec:
         image: docker.io/muk007/reader:version-1
         ports:
         - containerPort: 5000
-      imagePullSecrets:
-        - name: regcred
 
 ---
 apiVersion: v1

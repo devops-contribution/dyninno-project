@@ -17,5 +17,3 @@ spec:
         image: docker.io/muk007/writer:version-1
         ports:
         - containerPort: 8000
-      imagePullSecrets:
-        - name: regcred
