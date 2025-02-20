@@ -1,7 +1,11 @@
+data "aws_vpc" "default" {
+  default = true
+}
+
 resource "aws_security_group" "minikube_sg" {
   name        = "minikube-security-group"
   description = "Allow Minikube traffic"
-  vpc_id      = var.vpc_id
+  vpc_id      = data.aws_vpc.default.id
 
   ingress {
     from_port   = 0
