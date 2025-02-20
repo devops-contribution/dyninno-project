@@ -22,6 +22,22 @@ resource "aws_security_group" "minikube_sg" {
   }
 }
 
+## Get the latest image 
+data "aws_ami" "latest_ubuntu" {
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-*-amd64-server-*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  owners = ["099720109477"]
+}
 
 resource "aws_instance" "minikube" {
   ami                    = data.aws_ami.latest_ubuntu.id
