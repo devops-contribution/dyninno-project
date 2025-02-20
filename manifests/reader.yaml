@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: reader
-        image: reader:version-1
+        image: docker.io/muk007/reader:version-1
         ports:
         - containerPort: 5000
       imagePullSecrets:
