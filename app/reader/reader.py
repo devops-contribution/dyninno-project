@@ -8,7 +8,7 @@ REQUEST_TIME = Summary('request_processing_seconds', 'Time spent processing requ
 
 @REQUEST_TIME.time()
 def read_data():
-    conn = mysql.connector.connect(user='root', password='rootpassword', host='mysql-slave', database='test')
+    conn = mysql.connector.connect(user='user', password='password', host='mysql-1.mysql.default.svc.cluster.local', database='test')
     cursor = conn.cursor()
     cursor.execute("SELECT COUNT(*) FROM data")
     count = cursor.fetchone()[0]
