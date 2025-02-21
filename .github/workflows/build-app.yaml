@@ -70,9 +70,8 @@ jobs:
 
       - name: Update Version in File
         run: |
-          yq -i ".spec.template.spec.containers[0].image = \"docker.io/muk007/${TAG}\"" manifests/reader.yaml
-          yq -i ".spec.template.spec.containers[0].image = \"docker.io/muk007/${TAG}\"" manifests/writer.yaml
-
+          yq -i '.spec.template.spec.containers[0].image = \"docker.io/muk007/reader:${TAG}\"' manifests/reader.yaml
+          yq -i '.spec.template.spec.containers[0].image = \"docker.io/muk007/reader:${TAG}\"' manifests/writer.yaml
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
@@ -81,5 +80,5 @@ jobs:
           branch: "feature/${TAG}"
           base: "main"
           title: "Bump to ${TAG}"
-          body: "Bump to ${TAG}"
+          body: "Bump to ${TAG} for reader and writer."
           labels: automated
