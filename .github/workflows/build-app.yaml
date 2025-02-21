@@ -70,8 +70,10 @@ jobs:
 
       - name: Update Version in File
         run: |
-          yq -i ".spec.template.spec.containers[0].image = \"docker.io/muk007/reader:${TAG}\"" "manifests/reader.yaml"
-          yq -i ".spec.template.spec.containers[0].image = \"docker.io/muk007/writer:${TAG}\"" "manifests/writer.yaml"
+          export READER_IMAGE_TAG="docker.io/muk007/reader:${TAG}"
+          export WRITER_IMAGE_TAG="docker.io/muk007/writer:${TAG}"
+          yq -i ".spec.template.spec.containers[0].image = \"${READER_IMAGE_TAG}\"" manifests/reader.yaml
+          yq -i ".spec.template.spec.containers[0].image = \"${WRITER_IMAGE_TAG}\"" manifests/writer.yaml
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
