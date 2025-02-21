@@ -57,7 +57,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Transform version for TAG
-        run: TBD
+        run: echo "TAG=$(echo '${{ needs.build.outputs.image_tag }}"' | tr ' ' '-')" >> $GITHUB_ENV
         
       - name: Install yq
         run: |
