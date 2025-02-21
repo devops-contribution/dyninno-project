@@ -6,7 +6,7 @@ REQUEST_TIME = Summary('request_processing_seconds', 'Time spent processing requ
 
 @REQUEST_TIME.time()
 def write_data():
-    conn = mysql.connector.connect(user='root', password='rootpassword', host='mysql-master', database='test')
+    conn = mysql.connector.connect(user='user', password='password', host='mysql-0.mysql.default.svc.cluster.local', database='test')
     cursor = conn.cursor()
     cursor.execute("INSERT INTO data (value) VALUES (%s)", (time.time(),))
     conn.commit()
