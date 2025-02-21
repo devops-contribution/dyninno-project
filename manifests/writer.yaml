@@ -17,3 +17,12 @@ spec:
         image: docker.io/muk007/writer:version-1
         ports:
         - containerPort: 8000
+        env:
+        - name: MYSQL_HOST
+          value: "mysql-master"
+        - name: MYSQL_USER
+          value: "root"
+        - name: MYSQL_PASSWORD
+          value: "rootpassword"
+        - name: MYSQL_DATABASE
+          value: "test"
