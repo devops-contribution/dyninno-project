@@ -81,6 +81,6 @@ jobs:
           token: ${{ secrets.GH_PAT }}
           branch: "update-tag-br"
           base: "main"
-          title: "Bump to ${TAG}"
-          body: "Bump to ${TAG} for reader and writer."
+          title: "Bump to \"${TAG}\""
+          body: "Bump to \"${TAG}\" for reader and writer."
           labels: automated
