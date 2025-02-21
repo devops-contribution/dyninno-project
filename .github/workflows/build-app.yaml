@@ -52,10 +52,14 @@ jobs:
           push: true
           tags: "${{ secrets.DOCKER_USERNAME }}/writer:${{ env.TAG }}"
 
+  # We are just updating the image tag using a PR, this isn't an actual deployment.
   deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
       - name: Transform version for TAG
         run: echo "TAG=$(echo '${{ needs.build.outputs.image_tag }}"' | tr ' ' '-')" >> $GITHUB_ENV
         
