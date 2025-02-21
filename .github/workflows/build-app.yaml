@@ -14,7 +14,6 @@ jobs:
     outputs:
       image_tag: ${{ steps.set_tag.outputs.TAG }}
     steps:
-
       - name: Checkout Repo
         uses: actions/checkout@v4
 
@@ -52,3 +51,30 @@ jobs:
           file: devops/writer.Dockerfile
           push: true
           tags: "${{ secrets.DOCKER_USERNAME }}/writer:${{ env.TAG }}"
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Transform version for TAG
+        run: TBD
+        
+      - name: Install yq
+        run: |
+          wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq
+          chmod +x /usr/local/bin/yq
+
+      - name: Update Version in File
+        run: |
+          yq -i ".spec.template.spec.containers[0].image = \"docker.io/muk007/${TAG}\"" "manifests/reader.yaml"
+          yq -i ".spec.template.spec.containers[0].image = \"docker.io/muk007/${TAG}\"" "manifests/writer.yaml"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GH_PAT }}
+          branch: "feature/${TAG}"
+          base: "main"
+          title: "Bump to ${TAG}"
+          body: "Bump to ${TAG}"
+          labels: automated
