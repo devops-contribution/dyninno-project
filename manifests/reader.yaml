@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: reader
-        image: docker.io/muk007/reader:version-1
+        image: docker.io/muk007/reader:version-3
         ports:
         - containerPort: 5000
         - containerPort: 8001
