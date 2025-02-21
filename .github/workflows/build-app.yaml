@@ -78,8 +78,8 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: "feature/${TAG}"
+          token: ${{ secrets.GH_PAT }}
+          branch: "update-tag-br"
           base: "main"
           title: "Bump to ${TAG}"
           body: "Bump to ${TAG} for reader and writer."
