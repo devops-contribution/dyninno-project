@@ -13,20 +13,20 @@ spec:
         app: reader
     spec:
       containers:
-      - name: reader
-        image: docker.io/muk007/reader:version-3
-        ports:
-        - containerPort: 5000
-        - containerPort: 8001
-        env:
-        - name: MYSQL_HOST
-          value: "mysql-1.mysql.default.svc.cluster.local"
-        - name: MYSQL_USER
-          value: "user"
-        - name: MYSQL_PASSWORD
-          value: "password"
-        - name: MYSQL_DATABASE
-          value: "test"
+        - name: reader
+          image: docker.io/muk007/reader:version-20
+          ports:
+            - containerPort: 5000
+            - containerPort: 8001
+          env:
+            - name: MYSQL_HOST
+              value: "mysql-1.mysql.default.svc.cluster.local"
+            - name: MYSQL_USER
+              value: "user"
+            - name: MYSQL_PASSWORD
+              value: "password"
+            - name: MYSQL_DATABASE
+              value: "test"
 ---
 apiVersion: v1
 kind: Service
@@ -47,3 +47,7 @@ spec:
       port: 8001
       targetPort: 8001
   type: ClusterIP
+  template:
+    spec:
+      containers:
+        - image: docker.io/muk007/reader:version-20
