@@ -13,19 +13,19 @@ spec:
         app: writer
     spec:
       containers:
-      - name: writer
-        image: docker.io/muk007/writer:version-3
-        ports:
-        - containerPort: 8000
-        env:
-        - name: MYSQL_HOST
-          value: "mysql-0.mysql.default.svc.cluster.local"
-        - name: MYSQL_USER
-          value: "user"
-        - name: MYSQL_PASSWORD
-          value: "password"
-        - name: MYSQL_DATABASE
-          value: "test"
+        - name: writer
+          image: docker.io/muk007/writer:version-19
+          ports:
+            - containerPort: 8000
+          env:
+            - name: MYSQL_HOST
+              value: "mysql-0.mysql.default.svc.cluster.local"
+            - name: MYSQL_USER
+              value: "user"
+            - name: MYSQL_PASSWORD
+              value: "password"
+            - name: MYSQL_DATABASE
+              value: "test"
 ---
 apiVersion: v1
 kind: Service
@@ -39,4 +39,8 @@ spec:
       protocol: TCP
       port: 8000
       targetPort: 8000
-  type: ClusterIP 
+  type: ClusterIP
+  template:
+    spec:
+      containers:
+        - image: docker.io/muk007/writer:version-19
