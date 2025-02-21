@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: writer
-        image: docker.io/muk007/writer:version-1
+        image: docker.io/muk007/writer:version-3
         ports:
         - containerPort: 8000
         env:
