@@ -13,6 +13,7 @@
 - [Secrets](#secrets)
 - [Directory Structure](#directory-structure)
 - [Work In Progress](#work-in-progress)
+- [Monitoring](#monitoring)
 - [License](#license)
 
 ## Overview
@@ -95,6 +96,19 @@ You need to set below secrets at repo level
 ## Work In Progress
 - Implement monitoring
 - Implement continous replication between master-slave mysql
+
+## Monitoring
+- Run below command in EC2 where your cluster in running
+```
+kubectl port-forward svc/prometheus-grafana --address 0.0.0.0 3000:80 &
+```
+- Go to browser and access http://<public_ip>:3000
+user     : admin
+password : prom-operator
+
+- Now import the dashboard json located at 'manifests/monitoring/dashboard/dashboard.json' and you should be able to see graph (like below)
+  ![Screenshot](pictures/screenshot_1.png)
+
 
 ## License
 NA
