@@ -67,15 +67,3 @@ spec:
   storageClassName: manual
   hostPath:
     path: "/mnt/data/mysql"
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mysql-pvc
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 5Gi
-  storageClassName: manual
