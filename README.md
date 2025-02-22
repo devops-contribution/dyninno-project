@@ -12,6 +12,7 @@
 - [Secrets](#secrets)
 - [Directory Structure](#directory-structure)
 - [Work In Progress](#work-in-progress)
+- [License](#license)
 
 ## Overview
 
@@ -78,3 +79,6 @@ You need to set below secrets at repo level
 ## Work In Progress
 - Implement monitoring
 - Implement continous replication between master-slave mysql
+
+## License
+NA
