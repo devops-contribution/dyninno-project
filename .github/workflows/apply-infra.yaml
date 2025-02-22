@@ -53,15 +53,17 @@ jobs:
 
       - name: Apply Manifests
         run: |
-          while true; do
-            STATUS=$(kubectl get nodes -o jsonpath='{.items[*].status.conditions[-1].type}')
-            echo $STATUS    
-
-            if [[ "$STATUS" != "Ready" ]]; then
-              echo "Current status: $STATUS. Retrying in 5 seconds..."
-              sleep 5
-            else
-              kubectl apply -f manifests/.
-              break
-            fi
-          done
+          aws ssm send-command \
+            --document-name "AWS-RunShellScript" \
+            --targets Key=instanceIds,Values=i-05f03f58bda6a40a8 \
+            --parameters '{"commands":[
+              "NODE_STATUS=$(kubectl get nodes -o jsonpath='{.items[*].status.conditions[-1].type}')",
+              "if [[ \"$NODE_STATUS\" == \"Ready\" ]]; then",
+              "  echo \"All nodes are Ready. Applying manifests...\"",
+              "  kubectl apply -f manifests/",
+              "else",
+              "  echo \"Nodes are not Ready. Current status: $NODE_STATUS\"",
+              "  exit 1",
+              "fi"
+            ]}' \
+            --comment "Check node status and apply manifests"
