@@ -37,3 +37,14 @@ sleep 10
 
 # Create a Kind cluster as the ubuntu user
 sudo -u ubuntu kind create cluster --name dyninno-cluster
+
+
+##################### Install SSM Agent ######################
+
+wget https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/debian_amd64/amazon-ssm-agent.deb -O /tmp/amazon-ssm-agent.deb
+
+sudo dpkg -i /tmp/amazon-ssm-agent.deb
+
+# Enable and start the service
+sudo systemctl enable amazon-ssm-agent
+sudo systemctl start amazon-ssm-agent
