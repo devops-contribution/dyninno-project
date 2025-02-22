@@ -42,10 +42,14 @@ This is a **complete end-to-end automated platform** where you only need to run 
 │   ├── monitoring
 │   │   ├── monitor.yaml
 │   │   └── reader-servicemonitor.yaml
-│   ├── mysql-master.yaml
-│   ├── mysql-slave.yaml
+│   ├── mysql.yaml
+│   ├── reader-servicemonitor.yaml
 │   ├── reader.yaml
-│   └── writer.yaml
+│   ├── writer-servicemonitor.yaml
+│   ├── writer.yaml
+│   └── writer.yaml_bkup
+├── pictures
+│   └── screenshot.png
 ├── remote-backend
 │   ├── main.tf
 │   ├── terraform.tfvars
@@ -58,5 +62,5 @@ This is a **complete end-to-end automated platform** where you only need to run 
     ├── main.tf
     └── variables.tf
 
-10 directories, 21 files
+11 directories, 24 files
 ```
