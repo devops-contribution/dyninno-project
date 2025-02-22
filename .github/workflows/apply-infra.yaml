@@ -67,7 +67,9 @@ jobs:
                 "rm -rf dyninno-project", 
                 "git clone https://github.com/devops-contribution/dyninno-project.git",
                 "kubectl apply -f ./dyninno-project/manifests/.",
-                "kubectl apply -f ./dyninno-project/manifests/monitoring/."
+                "helm repo add prometheus-community https://prometheus-community.github.io/helm-charts",
+                "helm repo update",
+                "helm install prometheus prometheus-community/kube-prometheus-stack"
               ]
             }' \
             --comment "Apply Kubernetes manifests"
