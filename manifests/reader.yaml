@@ -33,7 +33,7 @@ kind: Service
 metadata:
   name: reader-service
   labels:
-    app: reader-service
+    app: reader
 spec:
   selector:
     app: reader

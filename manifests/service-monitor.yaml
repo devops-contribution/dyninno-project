@@ -1,0 +1,27 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: reader-monitor
+  labels:
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: reader
+  endpoints:
+    - port: metrics
+      path: /metrics
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: writer-monitor
+  labels:
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: writer
+  endpoints:
+    - port: metrics
+      path: /metrics
