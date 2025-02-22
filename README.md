@@ -114,4 +114,4 @@ kubectl port-forward svc/prometheus-grafana --address 0.0.0.0 3000:80 &
 ## License
 NA
 
-© 2025 - Mukesh Singh Rawat. All rights reserved.
+© 2025 - All rights reserved.
