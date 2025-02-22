@@ -1,5 +1,16 @@
 # dyninno-project
 
+## Automated Infrastructure Deployment Platform
+
+This is a **complete end-to-end automated platform** where you only need to run the workflows.
+
+- **Validate Infra Workflow**: Validates your Terraform scripts.
+- **Apply Infra Workflow**: Once validation is complete, it automatically requests approval to proceed with the infrastructure deployment.
+- After deployment, you can **log in to the EC2 instance** and run the following command to check the deployed pods:
+
+  ```sh
+  kubectl get pods
+  ```
 
 ## Secrets you need to set at repo level are below,
 
