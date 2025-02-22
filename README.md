@@ -11,7 +11,7 @@
 - [Overview](#overview)
 - [Secrets](#secrets)
 - [Directory Structure](#directory-structure)
-- [Work In Progress](#wip)
+- [Work In Progress](#work-in-progress)
 
 ## Overview
 
