@@ -6,16 +6,26 @@ data "aws_vpc" "default" {
   default = true
 }
 
+## Instance SG
 resource "aws_security_group" "minikube_sg" {
   name        = "minikube-security-group"
   description = "Allow Minikube traffic"
   vpc_id      = data.aws_vpc.default.id
 
+  # For SSH
   ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # Chnage it as per your need.
+    cidr_blocks = ["0.0.0.0/0"] # Adjust as per your requirement.
+  }
+
+  # For Grafana
+  ingress {
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # Adjust as per your requirement.
   }
 
   egress {
@@ -25,6 +35,7 @@ resource "aws_security_group" "minikube_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
 
 ## Get the latest image 
 data "aws_ami" "latest_ubuntu" {
