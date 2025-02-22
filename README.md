@@ -7,6 +7,7 @@
 - AWS_SECRET_ACCESS_KEY
 - DOCKER_PASSWORD
 - DOCKER_USERNAME
+- GH_PAT: Personal Access Token for authentication.
 
 ## Directory Structure
 ```
