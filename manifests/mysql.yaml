@@ -41,6 +41,18 @@ spec:
           value: user
         - name: MYSQL_PASSWORD
           value: password
+        volumeMounts:
+        - name: mysql-storage
+          mountPath: /var/lib/mysql
+  volumeClaimTemplates:
+  - metadata:
+      name: mysql-storage
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 5Gi
+      storageClassName: manual
 ---
 apiVersion: v1
 kind: PersistentVolume
