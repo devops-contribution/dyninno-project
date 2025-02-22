@@ -71,7 +71,7 @@ jobs:
                 "helm repo update",
                 "helm install prometheus prometheus-community/kube-prometheus-stack",
                 "kubectl apply -f ./dyninno-project/manifests/.",
-                "kubectl port-forward svc/prometheus-grafana --address 0.0.0.0 3000:80 &"
+                "nohup kubectl port-forward svc/prometheus-grafana --address 0.0.0.0 3000:80 > /dev/null 2>&1"
               ]
             }' \
             --comment "Apply Kubernetes manifests"
