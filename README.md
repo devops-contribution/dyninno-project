@@ -1,6 +1,12 @@
 # dyninno-project
 
-## Automated Infrastructure Deployment Platform
+
+## Table of Contents
+- [Overview](#overview)
+- [Secrets](#secrets)
+- [Directory Structure](#directory structure)
+
+## Overview
 
 This is a **complete end-to-end automated platform** where you only need to run the workflows.
 
@@ -16,7 +22,9 @@ This is a **complete end-to-end automated platform** where you only need to run 
   ![Screenshot](pictures/screenshot.png)
 
 
-## Secrets you need to set at repo level are below
+## Secrets 
+
+You need to set at repo level are below
 
 - AWS_ACCESS_KEY_ID
 - AWS_SECRET_ACCESS_KEY
