@@ -53,13 +53,8 @@ You need to set below secrets at repo level
 │   ├── reader.Dockerfile
 │   └── writer.Dockerfile
 ├── manifests
-│   ├── monitoring
-│   │   ├── monitor.yaml
-│   │   └── reader-servicemonitor.yaml
 │   ├── mysql.yaml
-│   ├── reader-servicemonitor.yaml
 │   ├── reader.yaml
-│   ├── writer-servicemonitor.yaml
 │   ├── writer.yaml
 │   └── writer.yaml_bkup
 ├── pictures
@@ -76,5 +71,5 @@ You need to set below secrets at repo level
     ├── main.tf
     └── variables.tf
 
-11 directories, 24 files
+10 directories, 20 files
 ```
