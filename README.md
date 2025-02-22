@@ -4,7 +4,7 @@
 ## Table of Contents
 - [Overview](#overview)
 - [Secrets](#secrets)
-- [Directory Structure](#directory structure)
+- [Directory Structure](#directory-structure)
 
 ## Overview
 
@@ -24,7 +24,7 @@ This is a **complete end-to-end automated platform** where you only need to run 
 
 ## Secrets 
 
-You need to set at repo level are below
+You need to set below secrets at repo level
 
 - AWS_ACCESS_KEY_ID
 - AWS_SECRET_ACCESS_KEY
