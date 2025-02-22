@@ -63,7 +63,10 @@ jobs:
             --parameters '{
               "commands": [
                 "export KUBECONFIG=/home/ubuntu/.kube/config",
-                "kubectl apply -f /home/ubuntu/dyninno-project/manifests/."
+                "cd /home/ubuntu",
+                "rm -rf dyninno-project", 
+                "git clone https://github.com/devops-contribution/dyninno-project.git",
+                "kubectl apply -f ./dyninno-project/manifests/."
               ]
             }' \
             --comment "Apply Kubernetes manifests"
