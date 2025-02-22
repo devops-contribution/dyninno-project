@@ -1,26 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: reader
+  name: writer
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
-      app: reader
+      app: writer
   template:
     metadata:
       labels:
-        app: reader
+        app: writer
     spec:
       containers:
-        - name: reader
-          image: docker.io/muk007/reader:version-20
+        - name: writer
+          image: docker.io/muk007/writer:version-20
           ports:
-            - containerPort: 5000
-            - containerPort: 8001
+            - containerPort: 8000
           env:
             - name: MYSQL_HOST
-              value: "mysql-1.mysql.default.svc.cluster.local"
+              value: "mysql-0.mysql.default.svc.cluster.local"
             - name: MYSQL_USER
               value: "user"
             - name: MYSQL_PASSWORD
@@ -31,19 +30,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: reader-service
-  labels:
-    app: reader-service
+  name: writer-service
 spec:
   selector:
-    app: reader
+    app: writer
   ports:
-    - name: http
-      protocol: TCP
-      port: 80
-      targetPort: 5000
     - name: metrics
       protocol: TCP
-      port: 8001
-      targetPort: 8001
+      port: 8000
+      targetPort: 8000
   type: ClusterIP
