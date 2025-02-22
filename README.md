@@ -13,7 +13,8 @@ This is a **complete end-to-end automated platform** where you only need to run 
   ```
 - Expected output can be seen below.
 
-  ![Pods](pictures/Screenshot\ 2025-02-22\ at\ 12.41.26 PM.png)
+  ![Screenshot](pictures/screenshot.png)
+
 
 ## Secrets you need to set at repo level are below
 
