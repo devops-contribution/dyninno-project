@@ -11,6 +11,7 @@
 - [Overview](#overview)
 - [Secrets](#secrets)
 - [Directory Structure](#directory-structure)
+- [Work In Progress](#wip)
 
 ## Overview
 
@@ -73,3 +74,7 @@ You need to set below secrets at repo level
 
 10 directories, 20 files
 ```
+
+## Work In Progress
+- Implement monitoring
+- Implement continous replication between master-slave mysql
