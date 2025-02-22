@@ -2,8 +2,7 @@
 
 
 > ⚠️ **Security Warning:**  
-> This repository contains **hardcoded secrets** in the code.  
-> It is strongly recommended to **remove them** and use a **secure secrets management** solution like:
+> This repository contains **hardcoded secrets** in the code. It is strongly recommended to **remove them** and use a **secure secrets management** solution like:
 > - AWS Secrets Manager  
 > - HashiCorp Vault  
 
