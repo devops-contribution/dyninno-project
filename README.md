@@ -94,7 +94,6 @@ You need to set below secrets at repo level
 ```
 
 ## Work In Progress
-- Implement monitoring
 - Implement continous replication between master-slave mysql
 
 ## Monitoring
@@ -107,6 +106,7 @@ user     : admin
 password : prom-operator
 
 - Now import the dashboard json located at 'manifests/monitoring/dashboard/dashboard.json' and you should be able to see graph (like below)
+
   ![Screenshot](pictures/screenshot_1.png)
 
 
