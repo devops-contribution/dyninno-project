@@ -55,7 +55,8 @@ jobs:
         run: |
           while true; do
             STATUS=$(kubectl get nodes -o jsonpath='{.items[*].status.conditions[-1].type}')
-    
+            echo $STATUS    
+
             if [[ "$STATUS" != "Ready" ]]; then
               echo "Current status: $STATUS. Retrying in 5 seconds..."
               sleep 5
