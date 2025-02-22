@@ -72,12 +72,17 @@ You need to set below secrets at repo level
 │   ├── reader.Dockerfile
 │   └── writer.Dockerfile
 ├── manifests
+│   ├── monitoring
+│   │   └── dashboard
+│   │       └── dashboard.json
 │   ├── mysql.yaml
 │   ├── reader.yaml
+│   ├── service-monitor.yaml
 │   ├── writer.yaml
 │   └── writer.yaml_bkup
 ├── pictures
-│   └── screenshot.png
+│   ├── screenshot.png
+│   └── screenshot_1.png
 ├── remote-backend
 │   ├── main.tf
 │   ├── terraform.tfvars
@@ -90,7 +95,7 @@ You need to set below secrets at repo level
     ├── main.tf
     └── variables.tf
 
-10 directories, 20 files
+12 directories, 23 files
 ```
 
 ## Work In Progress
