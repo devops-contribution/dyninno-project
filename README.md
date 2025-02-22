@@ -43,7 +43,7 @@ This is a **complete end-to-end automated platform** where you only need to run 
 
 ### **Deletion Order**
 1. **Delete Infra** – Run `terraform destroy` to remove all deployed resources.
-2. **Destroy Remote Backend** – Manually delete the remote backend storage (e.g., S3 bucket, DynamoDB table) after ensuring all resources are removed.
+2. **Destroy Remote Backend** – Delete the remote backend storage (e.g., S3 bucket, DynamoDB table) after ensuring all resources are removed.
 
 
 ## Secrets 
