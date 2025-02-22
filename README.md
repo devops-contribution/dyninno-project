@@ -12,7 +12,7 @@ This is a **complete end-to-end automated platform** where you only need to run 
   kubectl get pods
   ```
 
-## Secrets you need to set at repo level are below,
+## Secrets you need to set at repo level are below
 
 - AWS_ACCESS_KEY_ID
 - AWS_SECRET_ACCESS_KEY
