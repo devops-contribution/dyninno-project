@@ -103,6 +103,12 @@ resource "aws_instance" "minikube" {
   iam_instance_profile   = aws_iam_instance_profile.ec2_instance_profile.name
   vpc_security_group_ids = [aws_security_group.minikube_sg.id]
   user_data = file("${path.module}/../scripts/install.sh")
+  
+  root_block_device {
+    volume_size = 50
+    volume_type = "gp2"
+  }
+  
   tags = {
     Name = "minikube-server"
   }
