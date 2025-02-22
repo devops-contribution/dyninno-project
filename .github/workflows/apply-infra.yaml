@@ -56,9 +56,10 @@ jobs:
 
       - name: Apply Manifests
         run: |
+          INSTANCE_ID=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=minikube-server" "Name=instance-state-name,Values=running" --query "Reservations[*].Instances[*].InstanceId" --output text)
           aws ssm send-command \
             --document-name "AWS-RunShellScript" \
-            --targets "Key=instanceIds,Values=i-05f03f58bda6a40a8" \
+            --targets "Key=instanceIds,Values=$INSTANCE_ID" \
             --parameters '{
               "commands": [
                 "export KUBECONFIG=/home/ubuntu/.kube/config",
