@@ -39,10 +39,8 @@ data "aws_ami" "latest_ubuntu" {
     name   = "virtualization-type"
     values = ["hvm"]
   }
-
   owners = ["099720109477"]
 }
-
 
 
 ### Role for EC2 ###
@@ -62,11 +60,10 @@ resource "aws_iam_role" "ec2_ssm_role" {
   })
 }
 
-# Policy for SSM Access
 resource "aws_iam_policy" "ssm_policy" {
   name        = "ec2-ssm-policy"
   description = "Allows EC2 to use SSM"
-  
+
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
@@ -87,10 +84,16 @@ resource "aws_iam_role_policy_attachment" "attach_ssm_policy" {
   policy_arn = aws_iam_policy.ssm_policy.arn
 }
 
+resource "aws_iam_role_policy_attachment" "attach_ssm_managed_policy" {
+  role       = aws_iam_role.ec2_ssm_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
 resource "aws_iam_instance_profile" "ec2_instance_profile" {
   name = "ec2-ssm-instance-profile"
   role = aws_iam_role.ec2_ssm_role.name
 }
+
 
 ### end ###
 
