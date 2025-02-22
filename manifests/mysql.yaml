@@ -8,9 +8,9 @@ spec:
   ports:
     - port: 3306
       targetPort: 3306
+  clusterIP: None
   selector:
     app: mysql
-  clusterIP: None
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -41,9 +41,31 @@ spec:
           value: user
         - name: MYSQL_PASSWORD
           value: password
+        - name: MYSQL_REPLICATION_USER
+          value: repl
+        - name: MYSQL_REPLICATION_PASSWORD
+          value: replpassword
         volumeMounts:
         - name: mysql-storage
           mountPath: /var/lib/mysql
+        command: ["sh", "-c", "
+          if [ $(hostname | awk -F '-' '{print $NF}') -eq 0 ]; then
+            echo '[mysqld]\nlog-bin=mysql-bin\nbinlog-format=row\nserver-id=1' > /etc/mysql/conf.d/my.cnf;
+          else
+            echo '[mysqld]\nserver-id=2\nrelay-log=mysql-relay-bin' > /etc/mysql/conf.d/my.cnf;
+            until mysql -h mysql-0.mysql -u root -p$MYSQL_ROOT_PASSWORD -e 'SELECT 1'; do sleep 5; done;
+            mysql -h mysql-0.mysql -u root -p$MYSQL_ROOT_PASSWORD -e "
+              CHANGE MASTER TO 
+              MASTER_HOST='mysql-0.mysql', 
+              MASTER_USER='repl', 
+              MASTER_PASSWORD='replpassword', 
+              MASTER_LOG_FILE='mysql-bin.000001', 
+              MASTER_LOG_POS=0;
+              START SLAVE;
+            "
+          fi
+          exec mysqld
+        "]
   volumeClaimTemplates:
   - metadata:
       name: mysql-storage
