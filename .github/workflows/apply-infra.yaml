@@ -50,3 +50,16 @@ jobs:
         run: |
           terraform -chdir=terraform init
           terraform -chdir=terraform apply -auto-approve
+
+      - name: Apply Manifests
+        run: |
+          while true; do
+            STATUS=$(kubectl get nodes -o jsonpath='{.items[*].status.conditions[-1].type}')
+    
+            if [[ "$STATUS" == "Ready" ]]; then
+              kubectl apply -f manifests/.
+            else
+              echo "Current status: $STATUS. Retrying in 5 seconds..."
+              sleep 5
+            fi
+          done
