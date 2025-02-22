@@ -9,6 +9,7 @@
 
 ## Table of Contents
 - [Overview](#overview)
+- [Order Of Execution](#order-of-execution)
 - [Secrets](#secrets)
 - [Directory Structure](#directory-structure)
 - [Work In Progress](#work-in-progress)
@@ -29,6 +30,20 @@ This is a **complete end-to-end automated platform** where you only need to run 
 - Expected output can be seen below.
 
   ![Screenshot](pictures/screenshot.png)
+
+
+## Order Of Execution
+
+### Workflow Execution Order
+
+### **Creation Order**
+1. **Create Remote Backend** – Set up the Terraform remote backend (e.g., S3 + DynamoDB for state locking).
+2. **Validate Infra** – Run `terraform validate` to check for syntax and configuration errors.
+3. **Apply Infra** – Execute `terraform apply` to provision the infrastructure.
+
+### **Deletion Order**
+1. **Delete Infra** – Run `terraform destroy` to remove all deployed resources.
+2. **Destroy Remote Backend** – Manually delete the remote backend storage (e.g., S3 bucket, DynamoDB table) after ensuring all resources are removed.
 
 
 ## Secrets 
