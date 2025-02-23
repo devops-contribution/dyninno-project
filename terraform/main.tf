@@ -22,8 +22,8 @@ resource "aws_security_group" "minikube_sg" {
 
   # For Grafana
   ingress {
-    from_port   = 31000
-    to_port     = 31000
+    from_port   = 3000
+    to_port     = 3000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"] # Adjust as per your requirement.
   }
