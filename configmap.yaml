@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-config
+data:
+  master.cnf: |
+    [mysqld]
+    server-id=1
+    log_bin=mysql-bin
+    binlog_do_db=test
+    skip-name-resolve
+    default-authentication-plugin=mysql_native_password
+    binlog_format=ROW
+  slave.cnf: |
+    [mysqld]
+    server-id=2
+    relay-log=relay-bin
+    read_only=1
+    skip-name-resolve
+    default-authentication-plugin=mysql_native_password
+    replicate_do_db=test
+    log_slave_updates=ON

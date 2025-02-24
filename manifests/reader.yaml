@@ -21,7 +21,8 @@ spec:
             - containerPort: 8001
           env:
             - name: MYSQL_HOST
-              value: "mysql-1.mysql.default.svc.cluster.local"
+              #value: "mysql-1.mysql.default.svc.cluster.local"
+              value: "mysql-slave-0.mysql-slave.default.svc.cluster.local"
             - name: MYSQL_USER
               value: "user"
             - name: MYSQL_PASSWORD

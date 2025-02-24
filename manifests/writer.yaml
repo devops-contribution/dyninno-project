@@ -30,7 +30,8 @@ spec:
           "]
           env:
             - name: MYSQL_HOST
-              value: "mysql-0.mysql.default.svc.cluster.local"
+              #value: "mysql-0.mysql.default.svc.cluster.local"
+              value: "mysql-master-0.mysql-master.default.svc.cluster.local"
             - name: MYSQL_USER
               value: "user"
             - name: MYSQL_PASSWORD
