@@ -33,9 +33,9 @@ spec:
               #value: "mysql-0.mysql.default.svc.cluster.local"
               value: "mysql-master-0.mysql-master.default.svc.cluster.local"
             - name: MYSQL_USER
-              value: "user"
+              value: "root"
             - name: MYSQL_PASSWORD
-              value: "password"
+              value: "rootpassword"
             - name: MYSQL_DATABASE
               value: "test"
       containers:
@@ -45,11 +45,12 @@ spec:
             - containerPort: 8000
           env:
             - name: MYSQL_HOST
-              value: "mysql-0.mysql.default.svc.cluster.local"
+              #value: "mysql-0.mysql.default.svc.cluster.local"
+              value: "mysql-master-0.mysql-master.default.svc.cluster.local"
             - name: MYSQL_USER
-              value: "user"
+              value: "root"
             - name: MYSQL_PASSWORD
-              value: "password"
+              value: "rootpassword"
             - name: MYSQL_DATABASE
               value: "test"
 ---
