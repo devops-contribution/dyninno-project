@@ -100,24 +100,8 @@ You need to set below secrets at repo level
 
 ## Enable Mysql Replication
 
-### 1️⃣ Access the MySQL Slave
-Run the following command to enter the MySQL slave pod:
-```sh
-kubectl exec -it mysql-slave-0 -- /bin/bash
-```
-Login to MySQL:
-```sh
-mysql -u root -p
-```
+### Create a Replication User on the Master
 
-### 2️⃣ Create the `test` Database
-Inside MySQL, run:
-```sql
-CREATE DATABASE test;
-```
-An init container will automatically create the `data` table in the `test` database.
-
-### 3️⃣ Create a Replication User on the Master
 Run these commands on the **MySQL Master**:
 ```sh
 kubectl exec -it mysql-master-0 -- /bin/bash
@@ -132,7 +116,8 @@ SHOW MASTER STATUS;
 ```
 Note down the **MASTER_LOG_FILE** and **MASTER_LOG_POS** from `SHOW MASTER STATUS;`.
 
-### 4️⃣ Configure Replication on the Slave
+### Configure Replication on the Slave
+
 Switch to the **MySQL Slave**:
 ```sh
 kubectl exec -it mysql-slave-0 -- /bin/bash
