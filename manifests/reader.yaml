@@ -17,6 +17,7 @@ spec:
         - name: init-mysql
           image: mysql:latest
           command: ["sh", "-c", "
+            sleep 120
             until mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD -D $MYSQL_DATABASE -e 'SELECT 1'; do
               echo 'Waiting for MySQL...';
               sleep 5;
@@ -33,7 +34,7 @@ spec:
           env:
             - name: MYSQL_HOST
               #value: "mysql-0.mysql.default.svc.cluster.local"
-              value: "mysql-master-0.mysql-master.default.svc.cluster.local"
+              value: "mysql-slave-0.mysql-slave.default.svc.cluster.local"
             - name: MYSQL_USER
               value: "root"
             - name: MYSQL_PASSWORD
