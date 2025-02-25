@@ -100,9 +100,6 @@ You need to set below secrets at repo level
 
 ## Enable Mysql Replication
 
-
-## ⚙️ Enable Mysql Replication
-
 ### 1️⃣ Access the MySQL Slave
 Run the following command to enter the MySQL slave pod:
 ```sh
