@@ -22,6 +22,8 @@ spec:
               sleep 5;
             done;
             mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD -D $MYSQL_DATABASE -e '
+              CREATE DATABASE IF NOT EXISTS test;
+              use test;
               CREATE TABLE IF NOT EXISTS data (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 value DOUBLE NOT NULL
