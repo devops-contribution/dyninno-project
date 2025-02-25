@@ -18,7 +18,7 @@ spec:
           image: mysql:latest
           command: ["sh", "-c", "
             until mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD -D $MYSQL_DATABASE -e 'SELECT 1'; do
-              echo 'Waiting for MySQL...';
+              echo 'Waiting for "test" db to be created...';
               sleep 5;
             done;
             mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD -D $MYSQL_DATABASE -e '
