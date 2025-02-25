@@ -100,23 +100,12 @@ You need to set below secrets at repo level
 
 ## Enable Mysql Replication
 
-- Go to slave db: 
-```sh
-kubectl exec -it mysql-slave-0 -- /bin/bash``` and login ```mysql -u root -p```
-- Create “test” db: 
-```sh
-CREATE DATABASE test;```
+- Go to slave db: **kubectl exec -it mysql-slave-0 -- /bin/bash** and login **mysql -u root -p**
+- Create “test” db: **CREATE DATABASE test;**
 - We already have init container which will create “data” table in test db
 - Once this is done, do enable replication from master -> slave using below steps,
-- Go to master and run:
-```sh
-CREATE USER 'replicator'@'%' IDENTIFIED WITH 'mysql_native_password' BY 'replpassword'; GRANT REPLICATION SLAVE ON *.* TO 'replicator'@'%'; FLUSH PRIVILEGES; SHOW MASTER STATUS;```
-
-
-
-- Go to slave now and run:
-```sh
-STOP SLAVE; RESET SLAVE ALL; CHANGE MASTER TO MASTER_HOST='mysql-master-0.mysql-master.default.svc.cluster.local', MASTER_USER='replicator', MASTER_PASSWORD='replpassword', MASTER_LOG_FILE='mysql-bin.000007', MASTER_LOG_POS=340249; START SLAVE; SHOW SLAVE STATUS\G;```
+- Go to master and run: **CREATE USER 'replicator'@'%' IDENTIFIED WITH 'mysql_native_password' BY 'replpassword'; GRANT REPLICATION SLAVE ON *.* TO 'replicator'@'%'; FLUSH PRIVILEGES; SHOW MASTER STATUS;**
+- Go to slave now and run: **STOP SLAVE; RESET SLAVE ALL; CHANGE MASTER TO MASTER_HOST='mysql-master-0.mysql-master.default.svc.cluster.local', MASTER_USER='replicator', MASTER_PASSWORD='replpassword', MASTER_LOG_FILE='mysql-bin.000007', MASTER_LOG_POS=340249; START SLAVE; SHOW SLAVE STATUS\G;**
 
 
 
