@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-resync-script
+data:
+  detect-restart.sh: |
+    #!/bin/sh
+    MASTER_MYSQL_POD="mysql-master-0.mysql-master.default.svc.cluster.local"
+    SLAVE_MYSQL_POD="mysql-slave-0.mysql-slave.default.svc.cluster.local"
+    NAMESPACE="default"
+
+    # Get the current restart count
+    CURRENT_RESTARTS=$(kubectl get pod $MASTER_MYSQL_POD -n $NAMESPACE -o=jsonpath='{.status.containerStatuses[0].restartCount}')
+    echo "Current restarts: $CURRENT_RESTARTS"
+
+    # Load previous restart count (stored in an emptyDir volume)
+    if [ -f "/restart_count" ]; then
+      PREVIOUS_RESTARTS=$(cat /restart_count)
+    else
+      PREVIOUS_RESTARTS=0
+    fi
+
+    # If restarts increased, reset GTID replication
+    if [ "$CURRENT_RESTARTS" -gt "$PREVIOUS_RESTARTS" ]; then
+      echo "Detected MySQL Master restart! Resetting GTID replication..."
+      export GTID=$(kubectl exec -it $MASTER_MYSQL_POD -- mysql -uroot -prootpassword -e "SHOW MASTER STATUS\G;" | grep -i gtid | awk '{print $2}')
+
+      kubectl exec -it $SLAVE_MYSQL_POD -- mysql -uroot -prootpassword -e "
+        STOP SLAVE;
+        RESET MASTER;
+        SET @@GLOBAL.GTID_PURGED = '$GTID';
+        CHANGE MASTER TO MASTER_AUTO_POSITION = 1;
+        START SLAVE;
+      "
+
+      echo "$CURRENT_RESTARTS" > /restart_count
+    else
+      echo "No restart detected, skipping..."
+    fi
