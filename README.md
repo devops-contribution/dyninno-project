@@ -124,7 +124,7 @@ export GTID=`kubectl exec -it mysql-master-0 -- mysql -uroot -prootpassword -e "
 ```
 - Re-sync GTID Position in slave
 ```sh
-kubectl exec -it mysql-slave-0 -- mysql -uroot -prootpassword -e "STOP SLAVE; RESET MASTER; SET @@GLOBAL.GTID_PURGED = '$GTID'; CHANGE MASTER TO MASTER_AUTO_POSITION = 1; START SLAVE;"
+kubectl exec -it mysql-slave-0 -- mysql -uroot -prootpassword -e "STOP SLAVE; RESET MASTER; SET @@GLOBAL.GTID_PURGED='$GTID'; CHANGE MASTER TO MASTER_AUTO_POSITION = 1; START SLAVE;"
 ```
 
 
