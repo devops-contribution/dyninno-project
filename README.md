@@ -12,7 +12,7 @@
 - [Order Of Execution](#order-of-execution)
 - [Secrets](#secrets)
 - [Directory Structure](#directory-structure)
-- [Enable Mysql Replication](#enable-mysql-replication)
+- [Mysql Replication](#mysql-replication)
 - [Monitoring](#monitoring)
 - [License](#license)
 
@@ -98,47 +98,17 @@ You need to set below secrets at repo level
 12 directories, 23 files
 ```
 
-## Enable Mysql Replication
+## Mysql Replication
 
-### Create a Replication User on the Master
+Mysql replication between master and slave is now being taken care automatically (initially it was manual setup). In case you want to cross-check, run below commands.
 
-Run these commands on the **MySQL Master**:
 ```sh
-kubectl exec -it mysql-master-0 -- /bin/bash
-mysql -u root -p
+kubectl exec -it mysql-master-0 -- mysql -uroot -prootpassword -e "show master status\G;"
 ```
-Inside master mysql, execute:
-```sql
-CREATE USER 'replicator'@'%' IDENTIFIED WITH 'mysql_native_password' BY 'replpassword';
-GRANT REPLICATION SLAVE ON *.* TO 'replicator'@'%';
-FLUSH PRIVILEGES;
-SHOW MASTER STATUS;
-```
-Note down the **MASTER_LOG_FILE** and **MASTER_LOG_POS** from `SHOW MASTER STATUS;`.
 
-### Configure Replication on the Slave
-
-Switch to the **MySQL Slave**:
 ```sh
-kubectl exec -it mysql-slave-0 -- /bin/bash
-mysql -u root -p
+kubectl exec -it mysql-slave-0 -- mysql -uroot -prootpassword -e "show slave status\G;"
 ```
-Run the following commands (replace values with those from `SHOW MASTER STATUS;`):
-```sql
-STOP SLAVE;
-RESET SLAVE ALL;
-CHANGE MASTER TO 
-    MASTER_HOST='mysql-master-0.mysql-master.default.svc.cluster.local',
-    MASTER_USER='replicator',
-    MASTER_PASSWORD='replpassword',
-    MASTER_LOG_FILE='mysql-bin.000007',  -- Update this value
-    MASTER_LOG_POS=340249;               -- Update this value
-START SLAVE;
-SHOW SLAVE STATUS\G;
-```
-
-### ✅ Verification
-Run `SHOW SLAVE STATUS\G;` on the slave to ensure replication is working.
 
 ## Monitoring
 - Run below command in EC2 where your cluster in running
