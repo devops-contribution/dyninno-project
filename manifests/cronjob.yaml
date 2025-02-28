@@ -8,20 +8,15 @@ spec:
     spec:
       template:
         spec:
-          restartPolicy: Never
+          restartPolicy: OnFailure
           volumes:
             - name: script-volume
               configMap:
                 name: mysql-resync-script
-            - name: restart-count-volume
-              emptyDir: {}
           containers:
             - name: restart-detector
               image: bitnami/kubectl:latest
-              command: ["/bin/sh", "/scripts/detect-restart.sh"]
+              command: ["/bin/sh", "-c", "/scripts/detect-restart.sh"]
               volumeMounts:
                 - name: script-volume
                   mountPath: /scripts
-                - name: restart-count-volume
-                  mountPath: /restart_count
-                  subPath: restart_count

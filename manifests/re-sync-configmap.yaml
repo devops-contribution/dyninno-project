@@ -4,36 +4,35 @@ metadata:
   name: mysql-resync-script
 data:
   detect-restart.sh: |
-    #!/bin/sh
-    
+    #!/bin/bash
+
+    POD_NAME=`kubectl get pod | grep -i writer | awk '{print $1}'`
     NAMESPACE="default"
-    POD=`kubectl get pod | grep -i writer | awk '{print $1}'`
 
-    # Get the current restart count
-    CURRENT_RESTARTS=$(kubectl get pod $POD -n $NAMESPACE -o=jsonpath='{.status.containerStatuses[0].restartCount}')
-    echo "Current restarts: $CURRENT_RESTARTS"
+    # Fetch the current pod's UID and creation timestamp
+    CURRENT_UID=$(kubectl get pod $POD_NAME -n $NAMESPACE -o jsonpath='{.metadata.uid}')
+    CURRENT_TIMESTAMP=$(kubectl get pod $POD_NAME -n $NAMESPACE -o jsonpath='{.metadata.creationTimestamp}')
 
-    # Load previous restart count (stored in an emptyDir volume)
-    if [ -f "/restart_count" ]; then
-      PREVIOUS_RESTARTS=$(cat /restart_count)
+    # Fetch the previously stored UID and timestamp
+    PREVIOUS_UID=$(kubectl get configmap pod-status -n $NAMESPACE -o jsonpath='{.data.uid}')
+    PREVIOUS_TIMESTAMP=$(kubectl get configmap pod-status -n $NAMESPACE -o jsonpath='{.data.timestamp}')
+
+    # Compare the values
+    if [[ "$CURRENT_UID" != "$PREVIOUS_UID" ]]; then
+        echo "Pod $POD_NAME has been recreated!"
+        export GTID=$(kubectl exec -it mysql-master-0 -- mysql -uroot -prootpassword -e "SHOW MASTER STATUS\G;" | grep -i gtid | awk '{print $2}')
+    
+        kubectl exec -it mysql-slave-0 -- mysql -uroot -prootpassword -e "
+            STOP SLAVE;
+            RESET MASTER;
+            SET @@GLOBAL.GTID_PURGED = '$GTID';
+            CHANGE MASTER TO MASTER_AUTO_POSITION = 1;
+            START SLAVE;
+        "
+
     else
-      PREVIOUS_RESTARTS=0
+        echo "Pod $POD_NAME has not been recreated."
     fi
 
-    # If restarts increased, reset GTID replication
-    if [ "$CURRENT_RESTARTS" -gt "$PREVIOUS_RESTARTS" ]; then
-      echo "Detected MySQL Master restart! Resetting GTID replication..."
-      export GTID=$(kubectl exec -it mysql-master-0 -- mysql -uroot -prootpassword -e "SHOW MASTER STATUS\G;" | grep -i gtid | awk '{print $2}')
-
-      kubectl exec -it mysql-slave-0 -- mysql -uroot -prootpassword -e "
-        STOP SLAVE;
-        RESET MASTER;
-        SET @@GLOBAL.GTID_PURGED = '$GTID';
-        CHANGE MASTER TO MASTER_AUTO_POSITION = 1;
-        START SLAVE;
-      "
-
-      echo "$CURRENT_RESTARTS" > /restart_count
-    else
-      echo "No restart detected, skipping..."
-    fi
+    # Update the ConfigMap with the new UID and timestamp
+    kubectl create configmap pod-status -n $NAMESPACE --from-literal=uid=$CURRENT_UID --from-literal=timestamp=$CURRENT_TIMESTAMP --dry-run=client -o yaml | kubectl apply -f -
