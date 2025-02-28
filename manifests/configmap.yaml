@@ -7,11 +7,12 @@ data:
     [mysqld]
     server-id=1
     log_bin=mysql-bin
-    binlog_format=ROW
-    gtid_mode=ON
-    enforce-gtid-consistency=ON
-    binlog_expire_logs_seconds=86400  # Keep binlogs for 1 day
     binlog_do_db=test
+    enforce-gtid-consistency=ON
+    gtid-mode=ON
+    sync_binlog=1
+    innodb_flush_log_at_trx_commit=1
+    log-slave-updates=ON
     skip-name-resolve
     default-authentication-plugin=mysql_native_password
 
@@ -20,8 +21,7 @@ data:
     server-id=2
     relay-log=relay-bin
     read_only=1
-    gtid_mode=ON
     enforce-gtid-consistency=ON
+    gtid-mode=ON
     skip-name-resolve
     default-authentication-plugin=mysql_native_password
-    replicate_do_db=test
