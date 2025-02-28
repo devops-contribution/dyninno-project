@@ -38,6 +38,35 @@ spec:
               value: "rootpassword"
             - name: MYSQL_DATABASE
               value: "test"
+
+        - name: setup-master
+          image: mysql:latest
+          command: ["/bin/sh", "-c"]
+          args: |
+            - |
+              echo "Waiting for MySQL to be ready..."
+              until mysql -uroot -p$MYSQL_ROOT_PASSWORD -e "SELECT 1"; do
+                sleep 5
+              done
+
+              echo "Enabling binary logs for replication..."
+              mysql -uroot -p$MYSQL_ROOT_PASSWORD -e "
+                RESET MASTER;
+                GRANT REPLICATION SLAVE ON *.* TO 'replication_user'@'%' IDENTIFIED BY 'replication_password';
+                FLUSH PRIVILEGES;
+              "
+              echo "Fetching Master Status..."
+              mysql -uroot -p$MYSQL_ROOT_PASSWORD -e "SHOW MASTER STATUS\G" > /replication/master-status.txt
+
+              echo "Master status saved:"
+              cat /replication/master-status.txt
+          volumeMounts:
+            - name: replication-volume
+              mountPath: /replication
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "rootpassword"
+
       containers:
         - name: writer
           image: docker.io/muk007/writer:version-20
@@ -53,6 +82,10 @@ spec:
               value: "rootpassword"
             - name: MYSQL_DATABASE
               value: "test"
+      volumes:
+        - name: replication-volume
+          emptyDir: {}
+
 ---
 apiVersion: v1
 kind: Service
