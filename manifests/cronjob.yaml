@@ -20,7 +20,7 @@ spec:
               args: 
                 - |
                   chmod +x /scripts/detect-restart.sh
-		  /scripts/detect-restart.sh
+                  /scripts/detect-restart.sh
               volumeMounts:
                 - name: script-volume
                   mountPath: /scripts
