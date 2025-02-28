@@ -9,7 +9,7 @@ spec:
       template:
         spec:
           securityContext:
-            runAsUser: 1000
+            runAsUser: 0
             fsGroup: 2000
           restartPolicy: OnFailure
           volumes:
