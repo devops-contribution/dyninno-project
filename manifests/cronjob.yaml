@@ -8,6 +8,9 @@ spec:
     spec:
       template:
         spec:
+          securityContext:
+            runAsUser: 1000
+            fsGroup: 2000
           restartPolicy: OnFailure
           volumes:
             - name: script-volume
