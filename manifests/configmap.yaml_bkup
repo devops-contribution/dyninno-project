@@ -7,9 +7,6 @@ data:
     [mysqld]
     server-id=1
     log_bin=mysql-bin
-    binlog_format=ROW
-    gtid_mode=ON
-    enforce-gtid-consistency=ON
     binlog_do_db=test
     skip-name-resolve
     default-authentication-plugin=mysql_native_password
@@ -18,8 +15,6 @@ data:
     server-id=2
     relay-log=relay-bin
     read_only=1
-    gtid_mode=ON
-    enforce-gtid-consistency=ON
     skip-name-resolve
     default-authentication-plugin=mysql_native_password
     replicate_do_db=test

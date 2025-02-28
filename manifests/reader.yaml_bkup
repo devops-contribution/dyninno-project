@@ -47,6 +47,10 @@ spec:
               echo "Waiting for Master Status..."
               while [ ! -f /replication/master-status.txt ]; do sleep 2; done 
              
+              echo "Reading Master Status..."
+              MASTER_LOG_FILE=$(grep "File:" /replication/master-status.txt | awk '{print $2}')
+              MASTER_LOG_POS=$(grep "Position:" /replication/master-status.txt | awk '{print $2}')
+  
               echo "Setting up replication on slave..."
               mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_ROOT_PASSWORD -e "
                 STOP SLAVE;
@@ -54,10 +58,14 @@ spec:
                   MASTER_HOST='$MYSQL_MASTER',
                   MASTER_USER='replication_user',
                   MASTER_PASSWORD='replication_password',
-                  MASTER_AUTO_POSITION = 1;
+                  MASTER_LOG_FILE='$MASTER_LOG_FILE',
+                  MASTER_LOG_POS=$MASTER_LOG_POS;
                 START SLAVE;
               "
        
+          volumeMounts:
+            - name: replication-volume
+              mountPath: /replication
           env:
             - name: MYSQL_MASTER
               value: "mysql-master-0.mysql-master.default.svc.cluster.local"
@@ -84,6 +92,10 @@ spec:
               value: "rootpassword"
             - name: MYSQL_DATABASE
               value: "test"
+      volumes:
+        - name: replication-volume
+          persistentVolumeClaim:
+            claimName: my-pvc
             
 ---
 apiVersion: v1

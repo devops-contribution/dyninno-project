@@ -56,14 +56,6 @@ spec:
                 GRANT REPLICATION SLAVE ON *.* TO 'replication_user'@'%';
                 FLUSH PRIVILEGES;
               "
-              echo "Fetching Master Status..."
-              mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_ROOT_PASSWORD -e "SHOW MASTER STATUS\G" > /replication/master-status.txt
-
-              echo "Master status saved:"
-              cat /replication/master-status.txt
-          volumeMounts:
-            - name: replication-volume
-              mountPath: /replication
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: "rootpassword"
@@ -87,10 +79,6 @@ spec:
               value: "rootpassword"
             - name: MYSQL_DATABASE
               value: "test"
-      volumes:
-        - name: replication-volume
-          persistentVolumeClaim:
-            claimName: my-pvc
 
 ---
 apiVersion: v1
