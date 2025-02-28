@@ -112,7 +112,8 @@ kubectl exec -it mysql-slave-0 -- mysql -uroot -prootpassword -e "show slave sta
 
 **NOTE:**
 ```text
-The automatic replication works fine, but in case if you restart the writer deployment, this replication will break.
+The automatic replication works fine, but in case if you restart the writer deployment, 
+this replication will break.
 
 ```
 
