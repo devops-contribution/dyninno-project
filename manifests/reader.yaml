@@ -55,11 +55,11 @@ spec:
               mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_ROOT_PASSWORD -e "
                 STOP SLAVE;
                 CHANGE MASTER TO 
-                  MASTER_HOST='$MYSQL_MASTER',
+                  MASTER_HOST=$MYSQL_MASTER,
                   MASTER_USER='replication_user',
                   MASTER_PASSWORD='replication_password',
-                  MASTER_LOG_FILE='$MASTER_LOG_FILE',
-                  MASTER_LOG_POS='$MASTER_LOG_POS';
+                  MASTER_LOG_FILE=$MASTER_LOG_FILE,
+                  MASTER_LOG_POS=$MASTER_LOG_POS;
                 START SLAVE;
               "
        
