@@ -5,12 +5,11 @@ metadata:
 data:
   detect-restart.sh: |
     #!/bin/sh
-    MASTER_MYSQL_POD="mysql-master-0.mysql-master.default.svc.cluster.local"
-    SLAVE_MYSQL_POD="mysql-slave-0.mysql-slave.default.svc.cluster.local"
+    
     NAMESPACE="default"
 
     # Get the current restart count
-    CURRENT_RESTARTS=$(kubectl get pod $MASTER_MYSQL_POD -n $NAMESPACE -o=jsonpath='{.status.containerStatuses[0].restartCount}')
+    CURRENT_RESTARTS=$(kubectl get pod mysql-master-0 -n $NAMESPACE -o=jsonpath='{.status.containerStatuses[0].restartCount}')
     echo "Current restarts: $CURRENT_RESTARTS"
 
     # Load previous restart count (stored in an emptyDir volume)
@@ -23,9 +22,9 @@ data:
     # If restarts increased, reset GTID replication
     if [ "$CURRENT_RESTARTS" -gt "$PREVIOUS_RESTARTS" ]; then
       echo "Detected MySQL Master restart! Resetting GTID replication..."
-      export GTID=$(kubectl exec -it $MASTER_MYSQL_POD -- mysql -uroot -prootpassword -e "SHOW MASTER STATUS\G;" | grep -i gtid | awk '{print $2}')
+      export GTID=$(kubectl exec -it mysql-master-0 -- mysql -uroot -prootpassword -e "SHOW MASTER STATUS\G;" | grep -i gtid | awk '{print $2}')
 
-      kubectl exec -it $SLAVE_MYSQL_POD -- mysql -uroot -prootpassword -e "
+      kubectl exec -it mysql-slave-0 -- mysql -uroot -prootpassword -e "
         STOP SLAVE;
         RESET MASTER;
         SET @@GLOBAL.GTID_PURGED = '$GTID';
