@@ -102,8 +102,22 @@ You need to set below secrets at repo level
 
 ```text
 NOTE: The automatic replication works fine, but in case if you restart the writer deployment 
-or reader deployment, this replication will break. Work is still in progress.
+or reader deployment, this replication will break.
 
+```
+
+FIX: 
+
+- Get the gtid from master using below command
+```sh
+kubectl exec -it mysql-master-0 -- mysql -uroot -prootpassword -e "SHOW MASTER  STATUS\G;" | grep -i gtid
+```
+- Re-sync GTID Position in slave
+```sh
+STOP SLAVE;
+RESET MASTER;
+SET @@GLOBAL.GTID_PURGED = '<master's GTID set>';
+START SLAVE;
 ```
 
 Mysql replication between master and slave is now being taken care automatically (initially it was manual setup). In case you want to cross-check, run below commands.
