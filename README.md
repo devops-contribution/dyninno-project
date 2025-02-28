@@ -124,7 +124,7 @@ kubectl exec -it mysql-master-0 -- mysql -uroot -prootpassword -e "SHOW MASTER  
 ```
 - Re-sync GTID Position in slave
 ```sh
-kubectl exec -it mysql-slave-0 -- mysql -uroot -prootpassword -e "STOP SLAVE; RESET MASTER; SET @@GLOBAL.GTID_PURGED = '<master's GTID set>'; START SLAVE;"
+kubectl exec -it mysql-slave-0 -- mysql -uroot -prootpassword -e "STOP SLAVE; RESET MASTER; SET @@GLOBAL.GTID_PURGED = '<master's GTID set>'; CHANGE MASTER TO MASTER_AUTO_POSITION = 1; START SLAVE;"
 ```
 
 
