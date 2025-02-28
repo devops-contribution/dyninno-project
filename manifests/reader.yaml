@@ -92,8 +92,9 @@ spec:
               value: "test"
       volumes:
         - name: replication-volume
-          emptyDir: {}
-
+          persistentVolumeClaim:
+            claimName: my-pvc
+            
 ---
 apiVersion: v1
 kind: Service
