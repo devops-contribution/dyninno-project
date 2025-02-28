@@ -52,7 +52,7 @@ spec:
               MASTER_LOG_POS=$(grep "Position:" /replication/master-status.txt | awk '{print $2}')
   
               echo "Setting up replication on slave..."
-              mysql -uroot -p$MYSQL_ROOT_PASSWORD -e "
+              mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_ROOT_PASSWORD -e "
                 STOP SLAVE;
                 CHANGE MASTER TO 
                   MASTER_HOST='mysql-master',
@@ -69,6 +69,10 @@ spec:
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: "rootpassword"
+            - name: MYSQL_HOST
+              value: "mysql-slave-0.mysql-slave.default.svc.cluster.local"
+            - name: MYSQL_USER
+              value: "root"            
 
       containers:
         - name: reader
