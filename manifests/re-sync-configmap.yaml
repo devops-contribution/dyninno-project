@@ -7,9 +7,10 @@ data:
     #!/bin/sh
     
     NAMESPACE="default"
+    POD=`kubectl get pod | grep -i writer | awk '{print $1}'`
 
     # Get the current restart count
-    CURRENT_RESTARTS=$(kubectl get pod mysql-master-0 -n $NAMESPACE -o=jsonpath='{.status.containerStatuses[0].restartCount}')
+    CURRENT_RESTARTS=$(kubectl get pod $POD -n $NAMESPACE -o=jsonpath='{.status.containerStatuses[0].restartCount}')
     echo "Current restarts: $CURRENT_RESTARTS"
 
     # Load previous restart count (stored in an emptyDir volume)
