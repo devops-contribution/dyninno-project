@@ -100,6 +100,11 @@ You need to set below secrets at repo level
 
 ## Mysql Replication
 
+```text
+NOTE: The automatic replication works fine, but in case if you restart the writer deployment or reader deployment, this replication will break. Work is still in progress.
+
+```
+
 Mysql replication between master and slave is now being taken care automatically (initially it was manual setup). In case you want to cross-check, run below commands.
 
 ```sh
