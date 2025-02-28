@@ -120,7 +120,7 @@ this replication will break.
 **FIX:** 
 - Get the gtid from master using below command
 ```sh
-export GTID=`kubectl exec -it mysql-master-0 -- mysql -uroot -prootpassword -e "SHOW MASTER  STATUS\G;" | grep -i gtid | awk '{export $2}'`
+export GTID=`kubectl exec -it mysql-master-0 -- mysql -uroot -prootpassword -e "SHOW MASTER  STATUS\G;" | grep -i gtid | awk '{print $2}'`
 ```
 - Re-sync GTID Position in slave
 ```sh
