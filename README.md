@@ -112,13 +112,11 @@ kubectl exec -it mysql-slave-0 -- mysql -uroot -prootpassword -e "show slave sta
 
 **NOTE:**
 ```text
-The automatic replication works fine, but in case if you restart the writer deployment
-or reader deployment, this replication will break.
+The automatic replication works fine, but in case if you restart the writer deployment, this replication will break.
 
 ```
 
 **FIX:** 
-
 - Get the gtid from master using below command
 ```sh
 kubectl exec -it mysql-master-0 -- mysql -uroot -prootpassword -e "SHOW MASTER  STATUS\G;" | grep -i gtid
