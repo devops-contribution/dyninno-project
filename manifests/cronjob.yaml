@@ -16,6 +16,8 @@ spec:
           containers:
             - name: restart-detector
               image: bitnami/kubectl:latest
+              securityContext:
+                readOnlyRootFilesystem: false
               command: ["/bin/sh", "-c"]
               args: 
                 - |
