@@ -52,7 +52,7 @@ spec:
               echo "Enabling binary logs for replication..."
               mysql -uroot -p$MYSQL_ROOT_PASSWORD -e "
                 RESET MASTER;
-                CREATE USER IF NOT EXISTS 'replication_user'@'%' IDENTIFIED WITH mysql_native_password BY 'replication_password';
+                CREATE USER IF NOT EXISTS 'replication_user'@'%' IDENTIFIED BY 'replication_password';
                 GRANT REPLICATION SLAVE ON *.* TO 'replication_user'@'%';
                 FLUSH PRIVILEGES;
               "
