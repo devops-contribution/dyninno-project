@@ -55,11 +55,11 @@ spec:
               mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_ROOT_PASSWORD -e "
                 STOP SLAVE;
                 CHANGE MASTER TO 
-                  MASTER_HOST=$MYSQL_HOST,
+                  MASTER_HOST='$MYSQL_MASTER',
                   MASTER_USER='replication_user',
                   MASTER_PASSWORD='replication_password',
                   MASTER_LOG_FILE='$MASTER_LOG_FILE',
-                  MASTER_LOG_POS=$MASTER_LOG_POS;
+                  MASTER_LOG_POS='$MASTER_LOG_POS';
                 START SLAVE;
               "
        
@@ -67,6 +67,8 @@ spec:
             - name: replication-volume
               mountPath: /replication
           env:
+            - name: MYSQL_MASTER
+              value: "mysql-master-0.mysql-master.default.svc.cluster.local"
             - name: MYSQL_ROOT_PASSWORD
               value: "rootpassword"
             - name: MYSQL_HOST
