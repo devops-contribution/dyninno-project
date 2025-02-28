@@ -42,7 +42,7 @@ spec:
         - name: setup-master
           image: mysql:latest
           command: ["/bin/sh", "-c"]
-          args: |
+          args:
             - |
               echo "Waiting for MySQL to be ready..."
               until mysql -uroot -p$MYSQL_ROOT_PASSWORD -e "SELECT 1"; do
