@@ -45,11 +45,6 @@ spec:
         - name: config
           configMap:
             name: mysql-config
-  volumeClaimTemplates:
-    - metadata:
-        name: data
-      spec:
-        accessModes: ["ReadWriteOnce"]
-        resources:
-          requests:
-            storage: 5Gi
+        - name: data
+          persistentVolumeClaim:
+            claimName: mysql-pvc
