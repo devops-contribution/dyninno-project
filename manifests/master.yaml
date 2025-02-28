@@ -47,4 +47,4 @@ spec:
             name: mysql-config
         - name: data
           persistentVolumeClaim:
-            claimName: mysql-pvc
+            claimName: master-mysql-pvc
