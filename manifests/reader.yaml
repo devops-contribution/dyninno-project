@@ -43,10 +43,7 @@ spec:
           image: mysql:latest
           command: ["/bin/sh", "-c"]
           args:
-            - |
-              echo "Waiting for Master Status..."
-              while [ ! -f /replication/master-status.txt ]; do sleep 2; done 
-             
+            - |         
               echo "Setting up replication on slave..."
               mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_ROOT_PASSWORD -e "
                 STOP SLAVE;
