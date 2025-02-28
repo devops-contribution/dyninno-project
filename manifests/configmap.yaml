@@ -23,5 +23,6 @@ data:
     read_only=1
     enforce-gtid-consistency=ON
     gtid-mode=ON
+    log_slave_updates=ON
     skip-name-resolve
     default-authentication-plugin=mysql_native_password
