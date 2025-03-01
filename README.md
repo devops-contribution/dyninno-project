@@ -112,21 +112,8 @@ kubectl exec -it mysql-slave-0 -- mysql -uroot -prootpassword -e "show slave sta
 
 **NOTE:**
 ```text
-The automatic replication works fine, but in case if you restart the writer deployment, 
-this replication will break.
-
+Everytime the writer pod restarts or is recreated, the replication stops. But I have implemented a cronjob which checks for this writer pod restarts or recreation and starts the replication. This cronjob runs ervy 1 minute.
 ```
-
-**FIX:** 
-- Get the gtid from master using below command
-```sh
-export GTID=`kubectl exec -it mysql-master-0 -- mysql -uroot -prootpassword -e "SHOW MASTER  STATUS\G;" | grep -i gtid | awk '{print $2}'`
-```
-- Re-sync GTID Position in slave
-```sh
-kubectl exec -it mysql-slave-0 -- mysql -uroot -prootpassword -e "STOP SLAVE; RESET MASTER; SET @@GLOBAL.GTID_PURGED='$GTID'; CHANGE MASTER TO MASTER_AUTO_POSITION = 1; START SLAVE;"
-```
-
 
 ## Monitoring
 - Run below command in EC2 where your cluster in running
