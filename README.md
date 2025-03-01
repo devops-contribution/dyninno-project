@@ -72,14 +72,26 @@ You need to set below secrets at repo level
 │   ├── reader.Dockerfile
 │   └── writer.Dockerfile
 ├── manifests
+│   ├── backups
+│   │   ├── configmap.yaml_bkup
+│   │   ├── reader.yaml_bkup
+│   │   └── writer.yaml_bkup
+│   ├── cronjob.yaml
 │   ├── monitoring
 │   │   └── dashboard
 │   │       └── dashboard.json
-│   ├── mysql.yaml
+│   ├── mysql-config-configmap.yaml
+│   ├── mysql-master-volume.yaml
+│   ├── mysql-master.yaml
+│   ├── mysql-slave-volume.yaml
+│   ├── mysql-slave.yaml
+│   ├── pod-status-configmap.yaml
 │   ├── reader.yaml
+│   ├── resync-configmap.yaml
+│   ├── role.yaml
+│   ├── rolebinding.yaml
 │   ├── service-monitor.yaml
-│   ├── writer.yaml
-│   └── writer.yaml_bkup
+│   └── writer.yaml
 ├── pictures
 │   ├── screenshot.png
 │   └── screenshot_1.png
@@ -95,7 +107,7 @@ You need to set below secrets at repo level
     ├── main.tf
     └── variables.tf
 
-12 directories, 23 files
+13 directories, 34 files
 ```
 
 ## Mysql Replication
