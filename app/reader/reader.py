@@ -1,6 +1,5 @@
-import time
-import mysql.connector
 import os
+import mysql.connector
 from prometheus_client import start_http_server, Summary
 from flask import Flask
 
