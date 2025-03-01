@@ -19,8 +19,9 @@ spec:
               command: ["/bin/sh", "-c"]
               args:
                 - |
-                  chmod +x /scripts/detect-restart.sh
-                  /scripts/detect-restart.sh
+                  cp /scripts/detect-restart.sh /tmp/detect-restart.sh
+                  chmod +x /tmp/detect-restart.sh
+                  /tmp/detect-restart.sh
               volumeMounts:
                 - name: script-volume
                   mountPath: /scripts
