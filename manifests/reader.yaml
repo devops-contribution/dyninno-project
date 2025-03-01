@@ -77,7 +77,3 @@ spec:
       port: 8001
       targetPort: 8001
   type: ClusterIP
-  template:
-    spec:
-      containers:
-        - image: docker.io/muk007/reader:version-22

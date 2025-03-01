@@ -82,7 +82,3 @@ spec:
       port: 8000
       targetPort: 8000
   type: ClusterIP
-  template:
-    spec:
-      containers:
-        - image: docker.io/muk007/writer:version-22
