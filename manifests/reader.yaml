@@ -16,7 +16,18 @@ spec:
       initContainers:
         - name: init-mysql
           image: mysql:latest
-          command: ["sh", "-c", " until mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD -D $MYSQL_DATABASE -e 'SELECT 1'; do echo 'Waiting for 'test' db to be created...'; sleep 5; done; mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD -D $MYSQL_DATABASE -e ' CREATE TABLE IF NOT EXISTS data ( id INT AUTO_INCREMENT PRIMARY KEY, value DOUBLE NOT NULL ); '; "]
+          command: ["sh", "-c", "
+            until mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD -D $MYSQL_DATABASE -e 'SELECT 1'; do
+              echo 'Waiting for 'test' db to be created...';
+              sleep 5;
+            done;
+            mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD -D $MYSQL_DATABASE -e '
+              CREATE TABLE IF NOT EXISTS data (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                value DOUBLE NOT NULL
+              );
+            ';
+          "]
           env:
             - name: MYSQL_HOST
               #value: "mysql-0.mysql.default.svc.cluster.local"
@@ -31,7 +42,17 @@ spec:
           image: mysql:latest
           command: ["/bin/sh", "-c"]
           args:
-            - "echo \"Setting up replication on slave...\"\nmysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_ROOT_PASSWORD -e \"\n  STOP SLAVE;\n  CHANGE MASTER TO \n    MASTER_HOST='$MYSQL_MASTER',\n    MASTER_USER='replication_user',\n    MASTER_PASSWORD='replication_password',\n    MASTER_AUTO_POSITION = 1;\n  START SLAVE;\n\"\n"
+            - |         
+              echo "Setting up replication on slave..."
+              mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_ROOT_PASSWORD -e "
+                STOP SLAVE;
+                CHANGE MASTER TO 
+                  MASTER_HOST='$MYSQL_MASTER',
+                  MASTER_USER='replication_user',
+                  MASTER_PASSWORD='replication_password',
+                  MASTER_AUTO_POSITION = 1;
+                START SLAVE;
+              "
           env:
             - name: MYSQL_MASTER
               value: "mysql-master-0.mysql-master.default.svc.cluster.local"
