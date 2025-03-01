@@ -13,20 +13,12 @@ spec:
             - name: script-volume
               configMap:
                 name: mysql-resync-script
-            - name: etc-hosts
-              emptyDir: {}
+                defaultMode: 0744
+            restartPolicy: OnFailure
           containers:
             - name: restart-detector
               image: bitnami/kubectl:latest
-              securityContext:
-                readOnlyRootFilesystem: false
-              command: ["/bin/sh", "-c"]
-              args: 
-                - |
-                  chmod +x /detect-restart.sh
-                  /detect-restart.sh
+              command: ["/bin/sh", "-c", "/scripts/detect-restart.sh"]
               volumeMounts:
                 - name: script-volume
-                  mountPath: /
-                - name: etc-hosts
-                  mountPath: /etc/hosts
+                  mountPath: /scripts
