@@ -16,9 +16,9 @@ MYSQL_DATABASE = os.getenv('MYSQL_DATABASE')
 def read_data():
     # Connect to MySQL using environment variables
     conn = mysql.connector.connect(
-        user=MYSQL_USER, 
-        password=MYSQL_PASSWORD, 
-        host=MYSQL_HOST, 
+        user=MYSQL_USER,
+        password=MYSQL_PASSWORD,
+        host=MYSQL_HOST,
         database=MYSQL_DATABASE
     )
     cursor = conn.cursor()
