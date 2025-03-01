@@ -27,7 +27,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install pylint flask mysql-connector-python prometheus-client
 
-      - name: Run Pylint
-        run: |
-          pylint app/reader/reader.py
-          pylint app/writer/writer.py
+      - name: Lint Reader
+        run: pylint app/reader/reader.py
+
+      - name: Lint Writer
+        run: pylint app/writer/writer.py
