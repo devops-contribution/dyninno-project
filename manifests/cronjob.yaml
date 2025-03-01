@@ -13,6 +13,8 @@ spec:
             - name: script-volume
               configMap:
                 name: mysql-resync-script
+            - name: etc-hosts
+              emptyDir: {}
           containers:
             - name: restart-detector
               image: bitnami/kubectl:latest
@@ -26,3 +28,5 @@ spec:
               volumeMounts:
                 - name: script-volume
                   mountPath: /
+                - name: etc-hosts
+                  mountPath: /etc/hosts
