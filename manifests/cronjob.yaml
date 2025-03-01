@@ -13,11 +13,14 @@ spec:
             - name: script-volume
               configMap:
                 name: mysql-resync-script
-                defaultMode: 0744
           containers:
             - name: restart-detector
               image: bitnami/kubectl:latest
-              command: ["/bin/sh", "-c", "/scripts/detect-restart.sh"]
+              command: ["/bin/sh", "-c"]
+              args:
+                - |
+                  chmod +x /scripts/detect-restart.sh
+                  /scripts/detect-restart.sh
               volumeMounts:
                 - name: script-volume
                   mountPath: /scripts
