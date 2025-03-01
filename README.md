@@ -112,7 +112,9 @@ kubectl exec -it mysql-slave-0 -- mysql -uroot -prootpassword -e "show slave sta
 
 **NOTE:**
 ```text
-Everytime the writer pod restarts or is recreated, the replication stops. But I have implemented a cronjob which checks for this writer pod restarts or recreation and starts the replication. This cronjob runs ervy 1 minute.
+Everytime the writer pod restarts or is recreated, the replication stops. But I have 
+implemented a cronjob which checks for this writer pod restarts or re-creation and starts 
+the replication. This cronjob runs ervy 1 minute.
 ```
 
 ## Monitoring
