@@ -114,7 +114,12 @@ kubectl exec -it mysql-slave-0 -- mysql -uroot -prootpassword -e "show slave sta
 ```text
 Everytime the writer pod restarts or is recreated, the replication stops. But I have 
 implemented a cronjob which checks for this writer pod restarts or re-creation and starts 
-the replication. This cronjob runs ervy 1 minute.
+the replication. This cronjob runs every 1 minute.
+```
+
+If you want to see the data is being replicated or not, run below command multiple times, you will see increment in the rows,
+```sh
+kubectl exec -it mysql-slave-0 -- mysql -uroot -prootpassword -e "select * from test.data;"
 ```
 
 ## Monitoring
