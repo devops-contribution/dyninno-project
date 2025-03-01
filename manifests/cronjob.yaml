@@ -14,7 +14,6 @@ spec:
               configMap:
                 name: mysql-resync-script
                 defaultMode: 0744
-            restartPolicy: OnFailure
           containers:
             - name: restart-detector
               image: bitnami/kubectl:latest
