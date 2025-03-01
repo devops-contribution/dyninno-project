@@ -1,6 +1,8 @@
+"""This module handles writing data into MySQL and exposing metrics."""
+
+import os
 import time
 import mysql.connector
-import os
 from prometheus_client import start_http_server, Summary
 
 REQUEST_TIME = Summary('request_processing_seconds', 'Time spent processing request')
@@ -13,11 +15,11 @@ MYSQL_DATABASE = os.getenv('MYSQL_DATABASE')
 
 @REQUEST_TIME.time()
 def write_data():
-    # Connect to MySQL using environment variables
+    """Connect to MySQL using environment variables. """
     conn = mysql.connector.connect(
-        user=MYSQL_USER, 
-        password=MYSQL_PASSWORD, 
-        host=MYSQL_HOST, 
+        user=MYSQL_USER,
+        password=MYSQL_PASSWORD,
+        host=MYSQL_HOST,
         database=MYSQL_DATABASE
     )
     cursor = conn.cursor()
