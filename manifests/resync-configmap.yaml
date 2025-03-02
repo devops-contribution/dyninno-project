@@ -21,7 +21,7 @@ data:
     if [[ "$CURRENT_UID" != "$PREVIOUS_UID" ]]; then
         echo "Pod $POD_NAME has been recreated!"
         export GTID=$(kubectl exec -it mysql-master-0 -- mysql -h mysql-master-0 -uroot -prootpassword -e "SHOW MASTER STATUS\G;" | grep -i gtid | awk '{print $2}')
-    
+        echo $GTID
         kubectl exec -it mysql-slave-0 -- mysql -h mysql-slave-0 -uroot -prootpassword -e "
             STOP SLAVE;
             RESET MASTER;
