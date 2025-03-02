@@ -2,11 +2,8 @@ name: Python Linting
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - "app/**"
+  schedule:
+    - cron: "59 23 * * *"
 
 jobs:
   lint:
