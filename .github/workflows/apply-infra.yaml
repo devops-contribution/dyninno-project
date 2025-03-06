@@ -51,26 +51,26 @@ jobs:
           terraform -chdir=terraform init
           terraform -chdir=terraform apply -auto-approve
 
-      - name: Wait
-        run: sleep 300
+      # - name: Wait
+      #   run: sleep 300
 
-      - name: Apply Manifests
-        run: |
-          INSTANCE_ID=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=minikube-server" "Name=instance-state-name,Values=running" --query "Reservations[*].Instances[*].InstanceId" --output text)
-          aws ssm send-command \
-            --document-name "AWS-RunShellScript" \
-            --targets "Key=instanceIds,Values=$INSTANCE_ID" \
-            --parameters '{
-              "commands": [
-                "export KUBECONFIG=/home/ubuntu/.kube/config",
-                "cd /home/ubuntu",
-                "rm -rf dyninno-project", 
-                "git clone https://github.com/devops-contribution/dyninno-project.git",
-                "sudo snap install helm --classic",
-                "helm repo add prometheus-community https://prometheus-community.github.io/helm-charts",
-                "helm repo update",
-                "helm install prometheus prometheus-community/kube-prometheus-stack",
-                "kubectl apply -f ./dyninno-project/manifests/."
-              ]
-            }' \
-            --comment "Apply Kubernetes manifests"
+      # - name: Apply Manifests
+      #   run: |
+      #     INSTANCE_ID=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=minikube-server" "Name=instance-state-name,Values=running" --query "Reservations[*].Instances[*].InstanceId" --output text)
+      #     aws ssm send-command \
+      #       --document-name "AWS-RunShellScript" \
+      #       --targets "Key=instanceIds,Values=$INSTANCE_ID" \
+      #       --parameters '{
+      #         "commands": [
+      #           "export KUBECONFIG=/home/ubuntu/.kube/config",
+      #           "cd /home/ubuntu",
+      #           "rm -rf dyninno-project", 
+      #           "git clone https://github.com/devops-contribution/dyninno-project.git",
+      #           "sudo snap install helm --classic",
+      #           "helm repo add prometheus-community https://prometheus-community.github.io/helm-charts",
+      #           "helm repo update",
+      #           "helm install prometheus prometheus-community/kube-prometheus-stack",
+      #           "kubectl apply -f ./dyninno-project/manifests/."
+      #         ]
+      #       }' \
+      #       --comment "Apply Kubernetes manifests"
