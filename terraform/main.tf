@@ -110,7 +110,7 @@ resource "aws_iam_instance_profile" "ec2_instance_profile" {
 
 resource "aws_instance" "minikube" {
   ami                    = data.aws_ami.latest_ubuntu.id
-  instance_type          = "t3.medium"
+  instance_type          = "t3.xlarge"
   iam_instance_profile   = aws_iam_instance_profile.ec2_instance_profile.name
   vpc_security_group_ids = [aws_security_group.minikube_sg.id]
   user_data = file("${path.module}/../scripts/install.sh")
