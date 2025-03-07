@@ -75,7 +75,7 @@ jobs:
             }' \
             --comment "Apply Kubernetes manifests"
     
-      - name: Apply Istio Ingress Gateway
+      - name: Implement Istio (Testing)
         run: |
           INSTANCE_ID=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=minikube-server" "Name=instance-state-name,Values=running" --query "Reservations[*].Instances[*].InstanceId" --output text)
           aws ssm send-command \
