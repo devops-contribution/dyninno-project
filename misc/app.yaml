@@ -14,8 +14,8 @@ spec:
     app: spring-boot 
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
+      port: 8080
+      targetPort: 8080
   type: ClusterIP
 ---
 apiVersion: apps/v1
@@ -39,4 +39,4 @@ spec:
         - name: spring-boot
           image: docker.io/muk007/spring-boot:version-28
           ports:
-            - containerPort: 80
+            - containerPort: 8080
