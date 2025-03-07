@@ -18,16 +18,24 @@ spec:
       targetPort: 80
   type: ClusterIP
 ---
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: my-pod
+  name: my-deployment
   namespace: test
   labels:
     app: nginx
 spec:
-  containers:
-    - name: nginx
-      image: nginx
-      ports:
-        - containerPort: 80
+  replicas: 2
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          ports:
+            - containerPort: 80
