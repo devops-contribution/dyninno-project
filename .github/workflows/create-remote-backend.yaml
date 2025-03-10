@@ -41,4 +41,4 @@ jobs:
           terraform -chdir=remote-backend apply -auto-approve
 
       - name: Push Statefile to S3
-        run: aws s3 cp remote-backend/terraform.tfstate s3://dyninno-remote-backend-bucket/remote/terraform.tfstate
+        run: aws s3 cp remote-backend/terraform.tfstate s3://kind-remote-backend-bucket/remote/terraform.tfstate

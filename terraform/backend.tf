@@ -1,9 +1,9 @@
 terraform {
   backend "s3" {
-    bucket         = "dyninno-remote-backend-bucket"
-    key            = "dyninno-minikube/terraform.tfstate"
+    bucket         = "kind-remote-backend-bucket"
+    key            = "kind-cluster/terraform.tfstate"
     region         = "us-west-2"
     encrypt        = true
-    dynamodb_table = "dyninno-terraform-locks"
+    dynamodb_table = "kind-terraform-locks"
   }
 }

@@ -1,3 +1,3 @@
 #bucket_name = "terraform-remote-backend-bucket"
-bucket_name  = "dyninno-remote-backend-bucket"
-lock_name    = "dyninno-terraform-locks"
+bucket_name  = "kind-remote-backend-bucket"
+lock_name    = "kind-terraform-locks"

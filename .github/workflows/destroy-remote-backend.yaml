@@ -36,7 +36,7 @@ jobs:
           aws-region: us-west-2
 
       - name: Download Statefile
-        run: aws s3 cp s3://dyninno-remote-backend-bucket/remote/terraform.tfstate remote-backend/terraform.tfstate
+        run: aws s3 cp s3://kind-remote-backend-bucket/remote/terraform.tfstate remote-backend/terraform.tfstate
 
       - name: Validate & Plan
         run: |

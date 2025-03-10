@@ -36,4 +36,4 @@ sudo mv ./kind /usr/local/bin/kind
 sleep 10
 
 # Create a Kind cluster as the ubuntu user
-sudo -u ubuntu kind create cluster --name dyninno-cluster
+sudo -u ubuntu kind create cluster --name kind-cluster
